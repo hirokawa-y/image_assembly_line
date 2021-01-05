@@ -11,7 +11,6 @@ test.build_image:
 	else \
 		DOCKER_BUILDKIT=1 docker build -f Dockerfile \
 			--build-arg BUILDKIT_INLINE_CACHE=1 \
-			--cache-from=${REGISTRY_NAME}/${IMAGE_NAME}:latest \
 			-t ${IMAGE_NAME} .; \
 	fi
 
