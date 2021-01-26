@@ -20,6 +20,7 @@ dev.build_image:
 			-t ${IMAGE_NAME} . ; \
 	else \
 		DOCKER_BUILDKIT=1 docker build -f dev.Dockerfile \
+			--build-arg NODE_VERSION=${NODE_VERSION} \
 			-t ${IMAGE_NAME} . ; \
 	fi
 
