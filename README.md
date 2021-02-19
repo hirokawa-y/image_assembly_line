@@ -2,6 +2,10 @@
   <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
 </p>
 
+# 設定
+cloneしてきたら以下の`.env`ファイルを作成してください
+https://docs.google.com/document/d/188sk8eyDdXgb6FkdYOlpxrBIxNoNcUPQRaOa79yl2_o/edit
+
 # Create a JavaScript Action using TypeScript
 
 Use this template to bootstrap the creation of a JavaScript action.:rocket:
