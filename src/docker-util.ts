@@ -6,8 +6,6 @@ import qs from 'qs'
 import * as fs from 'fs'
 
 const httpsAgent = new https.Agent({
-  // port: 2376,
-  // path: '/',
   keepAlive: true,
   ca: fs.readFileSync('/certs/client/ca.pem'),
   cert: fs.readFileSync('/certs/client/cert.pem'),
@@ -18,7 +16,6 @@ const httpsAgent = new https.Agent({
 // https://docs.docker.com/engine/api/v1.39/
 export const axiosInstance = axios.create({
   baseURL: 'https://localhost:2376/',
-  // proxy: {protocol: 'https', host: 'localhost', port: 2376},
   httpsAgent
 })
 
