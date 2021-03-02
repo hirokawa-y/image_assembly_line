@@ -6,6 +6,8 @@ import qs from 'qs'
 import * as fs from 'fs'
 
 const httpsAgent = new https.Agent({
+  port: 2376,
+  path: '/',
   ca: fs.readFileSync('/certs/client/ca.pem'),
   cert: fs.readFileSync('/certs/client/cert.pem'),
   key: fs.readFileSync('/certs/client/key.pem')
@@ -14,9 +16,8 @@ const httpsAgent = new https.Agent({
 // Document for docker engine API.
 // https://docs.docker.com/engine/api/v1.39/
 export const axiosInstance = axios.create({
-         baseURL: `https://localhost:2376`,
-         httpsAgent
-       })
+  httpsAgent
+})
 
 export async function latestBuiltImage(
   imageName: string
@@ -58,7 +59,7 @@ export async function dockerImageTag(
 ): Promise<void> {
   const res = await axiosInstance.post(
     `images/${imageId}/tag`,
-    qs.stringify({ tag: newTag, repo: repository })
+    qs.stringify({tag: newTag, repo: repository})
   )
 
   if (res.status !== 201 && res.status !== 200) {
@@ -76,7 +77,7 @@ export async function dockerImageLs(
   imageName: string
 ): Promise<DockerEngineImageResponse[]> {
   const res = await axiosInstance.get('images/json', {
-    params: { reference: imageName }
+    params: {reference: imageName}
   })
 
   // Make sure that images are sorted by "Created" desc.
@@ -98,8 +99,8 @@ export async function pushDockerImage(
 ): Promise<void> {
   const res = await axiosInstance.post(
     `images/${imageId}/push`,
-    qs.stringify({ tag: newTag }),
-    { headers: { 'X-Registry-Auth': registryAuth } }
+    qs.stringify({tag: newTag}),
+    {headers: {'X-Registry-Auth': registryAuth}}
   )
 
   core.debug(res.data)
