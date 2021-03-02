@@ -16,8 +16,9 @@ const httpsAgent = new https.Agent({
 // Document for docker engine API.
 // https://docs.docker.com/engine/api/v1.39/
 export const axiosInstance = axios.create({
-  httpsAgent
-})
+         proxy: {protocol: 'https', host: 'localhost', port: 2376},
+         httpsAgent
+       })
 
 export async function latestBuiltImage(
   imageName: string

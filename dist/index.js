@@ -26594,6 +26594,7 @@ const httpsAgent = new https.Agent({
     key: fs.readFileSync('/certs/client/key.pem')
 });
 exports.axiosInstance = axios_1.default.create({
+    proxy: { protocol: 'https', host: 'localhost', port: 2376 },
     httpsAgent
 });
 function latestBuiltImage(imageName) {
