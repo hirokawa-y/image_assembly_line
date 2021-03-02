@@ -26587,13 +26587,13 @@ const axios_1 = __importDefault(__webpack_require__(53));
 const qs_1 = __importDefault(__webpack_require__(386));
 const fs = __importStar(__webpack_require__(747));
 const httpsAgent = new https.Agent({
+    port: 2376,
+    path: '/',
     ca: fs.readFileSync('/certs/client/ca.pem'),
     cert: fs.readFileSync('/certs/client/cert.pem'),
     key: fs.readFileSync('/certs/client/key.pem')
 });
-const apiVersion = 'v1.39';
 exports.axiosInstance = axios_1.default.create({
-    baseURL: `http:/${apiVersion}/`,
     httpsAgent
 });
 function latestBuiltImage(imageName) {
@@ -26632,7 +26632,7 @@ exports.dockerImageTag = dockerImageTag;
 function dockerImageLs(imageName) {
     return __awaiter(this, void 0, void 0, function* () {
         const res = yield exports.axiosInstance.get('images/json', {
-            params: { filter: imageName }
+            params: { reference: imageName }
         });
         return res.data.sort((im1, im2) => {
             return im2.Created - im1.Created;
