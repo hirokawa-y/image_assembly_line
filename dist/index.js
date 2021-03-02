@@ -26587,15 +26587,13 @@ const axios_1 = __importDefault(__webpack_require__(53));
 const qs_1 = __importDefault(__webpack_require__(386));
 const fs = __importStar(__webpack_require__(747));
 const httpsAgent = new https.Agent({
-    port: 2376,
-    path: '/',
     keepAlive: true,
     ca: fs.readFileSync('/certs/client/ca.pem'),
     cert: fs.readFileSync('/certs/client/cert.pem'),
     key: fs.readFileSync('/certs/client/key.pem')
 });
 exports.axiosInstance = axios_1.default.create({
-    proxy: { protocol: 'https', host: 'localhost', port: 2376 },
+    baseURL: 'https://localhost:2376/',
     httpsAgent
 });
 function latestBuiltImage(imageName) {
