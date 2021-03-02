@@ -26589,6 +26589,7 @@ const fs = __importStar(__webpack_require__(747));
 const httpsAgent = new https.Agent({
     port: 2376,
     path: '/',
+    keepAlive: true,
     ca: fs.readFileSync('/certs/client/ca.pem'),
     cert: fs.readFileSync('/certs/client/cert.pem'),
     key: fs.readFileSync('/certs/client/key.pem')
