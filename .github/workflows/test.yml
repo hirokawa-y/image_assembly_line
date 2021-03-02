@@ -21,21 +21,9 @@ jobs:
     - name: create .env file
       run: |
         env > .env
-    - name: run the make command
-      run: |
-        make dev.build_image
-        make dev.all
-
-  test:
-    runs-on: self-hosted
-    env:
-      REGISTRY_NAME: '1234567890.dkr.ecr.ap-northeast-1.amazonaws.com'
-      CONTAINERKOJO_ENV: 'test'
-    steps:
-    - uses: actions/checkout@v1
     - name: build image
       run: |
         make dev.build_image
-    - name: run test
+    - name: run tests
       run: |
-        make dev.test
+        make dev.all
