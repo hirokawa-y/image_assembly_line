@@ -1,15 +1,22 @@
-import { DockerImage } from './docker'
+import {DockerImage} from './docker'
+import * as https from 'https'
 import * as core from '@actions/core'
 import axios from 'axios'
 import qs from 'qs'
+import * as fs from 'fs'
+
+const httpsAgent = new https.Agent({
+  ca: fs.readFileSync('/certs/client/ca.pem'),
+  cert: fs.readFileSync('/certs/client/cert.pem'),
+  key: fs.readFileSync('/certs/client/key.pem')
+})
 
 // Document for docker engine API.
 // https://docs.docker.com/engine/api/v1.39/
-const apiVersion = 'v1.39'
 export const axiosInstance = axios.create({
-  baseURL: `http:/${apiVersion}/`,
-  socketPath: '/var/run/docker.sock'
-})
+         baseURL: `https://localhost:2376`,
+         httpsAgent
+       })
 
 export async function latestBuiltImage(
   imageName: string
