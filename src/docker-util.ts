@@ -8,9 +8,10 @@ import * as fs from 'fs'
 const env = process.env
 
 let baseURL = ''
-const httpsAgentOption: https.AgentOptions = {keepAlive: true}
+const httpsAgentOption: https.AgentOptions = {}
 if (env.DOCKER_TLS_VERIFY && env.DOCKER_CERT_PATH) {
   baseURL = 'https://localhost:2376/'
+  httpsAgentOption.keepAlive = true
   httpsAgentOption.ca = fs.readFileSync(`${env.DOCKER_CERT_PATH}/ca.pem`)
   httpsAgentOption.cert = fs.readFileSync(`${env.DOCKER_CERT_PATH}/cert.pem`)
   httpsAgentOption.key = fs.readFileSync(`${env.DOCKER_CERT_PATH}/key.pem`)
