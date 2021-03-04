@@ -5,17 +5,24 @@ import axios from 'axios'
 import qs from 'qs'
 import * as fs from 'fs'
 
-const httpsAgent = new https.Agent({
-  keepAlive: true,
-  ca: fs.readFileSync('/certs/client/ca.pem'),
-  cert: fs.readFileSync('/certs/client/cert.pem'),
-  key: fs.readFileSync('/certs/client/key.pem')
-})
+const env = process.env
+
+let baseURL = ''
+const httpsAgentOption: https.AgentOptions = {keepAlive: true}
+if (env.DOCKER_TLS_VERIFY && env.DOCKER_CERT_PATH) {
+  baseURL = 'https://localhost:2376/'
+  httpsAgentOption.ca = fs.readFileSync(`${env.DOCKER_CERT_PATH}/ca.pem`)
+  httpsAgentOption.cert = fs.readFileSync(`${env.DOCKER_CERT_PATH}/cert.pem`)
+  httpsAgentOption.key = fs.readFileSync(`${env.DOCKER_CERT_PATH}/key.pem`)
+} else {
+  baseURL = 'http:/v1.39/'
+}
+const httpsAgent = new https.Agent(httpsAgentOption)
 
 // Document for docker engine API.
 // https://docs.docker.com/engine/api/v1.39/
 export const axiosInstance = axios.create({
-  baseURL: 'https://localhost:2376/',
+  baseURL,
   httpsAgent
 })
 
