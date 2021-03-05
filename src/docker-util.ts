@@ -5,27 +5,29 @@ import axios from 'axios'
 import qs from 'qs'
 import * as fs from 'fs'
 
-const env = process.env
-
-let baseURL = ''
-const httpsAgentOption: https.AgentOptions = {}
-if (env.DOCKER_TLS_VERIFY && env.DOCKER_CERT_PATH) {
-  baseURL = 'https://localhost:2376/'
-  httpsAgentOption.keepAlive = true
-  httpsAgentOption.ca = fs.readFileSync(`${env.DOCKER_CERT_PATH}/ca.pem`)
-  httpsAgentOption.cert = fs.readFileSync(`${env.DOCKER_CERT_PATH}/cert.pem`)
-  httpsAgentOption.key = fs.readFileSync(`${env.DOCKER_CERT_PATH}/key.pem`)
-} else {
-  baseURL = 'http:/v1.39/'
-}
-const httpsAgent = new https.Agent(httpsAgentOption)
-
 // Document for docker engine API.
 // https://docs.docker.com/engine/api/v1.39/
-export const axiosInstance = axios.create({
-  baseURL,
-  httpsAgent
-})
+// Create axios that connect via https when DOCKER_* is set
+export const axiosInstance = (() => {
+  const env = process.env
+
+  if (env.DOCKER_TLS_VERIFY && env.DOCKER_CERT_PATH) {
+    return axios.create({
+      baseURL: 'https://localhost:2376/',
+      httpsAgent: new https.Agent({
+        keepAlive: true,
+        ca: fs.readFileSync(`${env.DOCKER_CERT_PATH}/ca.pem`),
+        cert: fs.readFileSync(`${env.DOCKER_CERT_PATH}/cert.pem`),
+        key: fs.readFileSync(`${env.DOCKER_CERT_PATH}/key.pem`)
+      })
+    })
+  } else {
+    return axios.create({
+      baseURL: 'http:/v1.39/',
+      socketPath: '/var/run/docker.sock'
+    })
+  }
+})()
 
 export async function latestBuiltImage(
   imageName: string
