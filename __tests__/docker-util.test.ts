@@ -1,7 +1,7 @@
 import * as dockerUtil from '../src/docker-util'
-import { axiosInstance } from '../src/docker-util'
+import {axiosInstance} from '../src/docker-util'
 import qs from 'qs'
-import { base64 } from '../src/base64'
+import {base64} from '../src/base64'
 
 afterEach(() => {
   jest.restoreAllMocks()
@@ -36,7 +36,7 @@ describe('imageList()', () => {
     const imageList = await dockerUtil.dockerImageLs(BUILT_IMAGE_NAME)
 
     expect(mock).toHaveBeenCalledWith('images/json', {
-      params: { reference: BUILT_IMAGE_NAME }
+      params: {reference: BUILT_IMAGE_NAME}
     })
 
     // sorted
@@ -52,7 +52,7 @@ describe('imageList()', () => {
   })
 
   test('when there is NO any specified images', async () => {
-    jest.spyOn(axiosInstance, 'get').mockResolvedValueOnce({ data: [] })
+    jest.spyOn(axiosInstance, 'get').mockResolvedValueOnce({data: []})
 
     const imageList = await dockerUtil.dockerImageLs('noimages/app')
     expect(imageList.length).toBe(0)
@@ -71,7 +71,7 @@ describe('dockerImageTag()', () => {
     await dockerUtil.dockerImageTag('testId', 'yyy', 'xxx')
     expect(mock).toHaveBeenCalledWith(
       'images/testId/tag',
-      qs.stringify({ tag: 'xxx', repo: 'yyy' })
+      qs.stringify({tag: 'xxx', repo: 'yyy'})
     )
   })
 
@@ -101,8 +101,8 @@ describe('pushDockerImage()', () => {
     await dockerUtil.pushDockerImage('testId', 'yyy', textEncoded)
     expect(mock).toHaveBeenCalledWith(
       'images/testId/push',
-      qs.stringify({ tag: 'yyy' }),
-      { headers: { 'X-Registry-Auth': textEncoded } }
+      qs.stringify({tag: 'yyy'}),
+      {headers: {'X-Registry-Auth': textEncoded}}
     )
   })
 
