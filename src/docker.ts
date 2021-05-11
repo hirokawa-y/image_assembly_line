@@ -88,8 +88,6 @@ export default class Docker {
           scanExitCode,
           '--severity',
           severityLevel,
-          '--skip-dirs',
-          'usr/local/rvm/gems',
           imageName
         ],
         options
