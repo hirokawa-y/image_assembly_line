@@ -76,6 +76,7 @@ export default class Docker {
 
       const imageName = `${this._builtImage.imageName}:${this._builtImage.tags[0]}`
       core.info(`[Scan] Image name: ${imageName}`)
+      const skipDirs = '/usr/local/rvm/gems' // comma separated
       const result = await exec.exec(
         'trivy',
         [
@@ -88,6 +89,8 @@ export default class Docker {
           scanExitCode,
           '--severity',
           severityLevel,
+          '--skip-dirs',
+          skipDirs,
           imageName
         ],
         options
