@@ -96,6 +96,8 @@ export default class Docker {
         options
       )
 
+      core.debug(`trivyScanReport: ${trivyScanReport}`)
+
       const vulnerabilities: Vulnerability[] = JSON.parse(trivyScanReport)
       if (vulnerabilities.length > 0) {
         notifyVulnerability(imageName, vulnerabilities, trivyScanReport)

@@ -8830,6 +8830,7 @@ class Docker {
                     skipDirs,
                     imageName
                 ], options);
+                core.debug(`trivyScanReport: ${trivyScanReport}`);
                 const vulnerabilities = JSON.parse(trivyScanReport);
                 if (vulnerabilities.length > 0) {
                     notification_1.notifyVulnerability(imageName, vulnerabilities, trivyScanReport);
