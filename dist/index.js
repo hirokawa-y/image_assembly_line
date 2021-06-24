@@ -8808,7 +8808,7 @@ class Docker {
                 const options = {
                     silent: true,
                     listeners: {
-                        stdout: (data) => {
+                        stdline: (data) => {
                             trivyScanReport = data.toString();
                         }
                     }

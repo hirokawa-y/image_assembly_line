@@ -68,7 +68,7 @@ export default class Docker {
       const options: im.ExecOptions = {
         silent: true,
         listeners: {
-          stdout: (data: Buffer) => {
+          stdline: (data: string) => {
             trivyScanReport = data.toString()
           }
         }
