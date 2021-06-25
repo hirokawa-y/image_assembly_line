@@ -8830,7 +8830,15 @@ class Docker {
                     skipDirs,
                     imageName
                 ], options);
-                const vulnerabilities = JSON.parse(trivyScanReport);
+                let trivyJsonScanReport;
+                try {
+                    trivyJsonScanReport = JSON.parse(trivyScanReport);
+                }
+                catch (e) {
+                    core.info(`[Scan Report]: ${trivyScanReport}`);
+                    throw new Error('Invalid JSON');
+                }
+                const vulnerabilities = trivyJsonScanReport;
                 if (vulnerabilities.length > 0) {
                     notification_1.notifyVulnerability(imageName, vulnerabilities, trivyScanReport);
                 }
