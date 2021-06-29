@@ -111,7 +111,7 @@ export async function postVulnerability(
   if (!process.env.SLACK_TRIVY_ALERT) {
     throw new Error('No channel to post.')
   }
-  const channel: string = process.env.SLACK_TRIVY_ALERT
+  const channel: string = selectChannel(imageName)
   core.debug(`Channel: ${channel}`)
 
   const attachment = {
@@ -172,4 +172,92 @@ export async function postMessage(
   }
 
   return client.chat.postMessage(args)
+}
+
+export async function selectChannel(
+  imageName: string
+): string {
+  // mapの宣言
+  var productmap = new Map();
+
+  // 引っ掛けるためのproduct name
+  var products = [
+    'launch',
+    'wolf',
+    'ocean',
+    'nest-auth',
+    'card',
+    'goat',
+    'mynumber',
+    'benefit',
+    'cfoalpha-app',
+    'ohmu',
+    'jigsaw',
+    'deal-platform',
+    'javelin',
+    'ai-lab',
+    'convoy',
+    'freee-payroll',
+    'freee-pm',
+    'freee-ctax',
+    'freee-accounts',
+    'calc',
+    'freee-rrweb',
+    'ebis',
+    'freee-auth',
+    'freee-app-store',
+    'freee-tax-operation'
+  ]
+  // image name と対にするchannelID
+  var channelIds = [
+    'C014FCEJ1DL',
+    'C01SURYA4A3',
+    'C01T6FHVC7P',
+    'C01TN7TND4Z',
+    'C01T9LHR7PD',
+    'C01T2R4A3UN',
+    'C01U61WJX9T',
+    'C01T9K6LTU3',
+    'C0217FZ1B1N',
+    'C015Z5YR3FX',
+    'C01TFPTSD7W',
+    'C01T9J5QR6W',
+    'C01TN7G69GR',
+    'C01T2NJRA4W',
+    'C01P89JU0BZ',
+    'C014AUKCZ50',
+    'C014AUKCZ50',
+    'CAX1NQNAK',
+    'CU8BQ3WAK',
+    'C01T9QJT6Q3',
+    'C0240AGKPQE',
+    'C0137P1TJ5A',
+    'CU8BPSFAB',
+    'CDHQA8Z4J',
+    'CA3UUQRHN'
+  ]
+
+  // mapへの登録
+  for (var _i = 0; _i < products.length; _i++) {
+    var product = products[_i];
+    var channelid = channelIds[_i];
+    productmap.set(product, channelid)
+  }
+
+  // プロダクト名が定義されているか
+  var channel = null
+  for (var key of productmap.keys()) {
+    if imageName.includes(productmap.get(key)) {
+      channel = productmap.get(key)
+      break;
+    }
+  }
+
+  // 当てはまるものがなかった場合はtrivy_alertに投げる(例外的な奴)
+  if (!channel) {
+    channel = process.env.SLACK_TRIVY_ALERT
+  }
+
+  // channlIDを返す
+  return channel
 }
