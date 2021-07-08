@@ -111,7 +111,8 @@ export async function postVulnerability(
   if (!process.env.SLACK_TRIVY_ALERT) {
     throw new Error('No channel to post.')
   }
-  const channel: string = selectChannel(imageName)
+
+  const channel = selectChannel(imageName)
   core.debug(`Channel: ${channel}`)
 
   const attachment = {
@@ -174,14 +175,12 @@ export async function postMessage(
   return client.chat.postMessage(args)
 }
 
-export async function selectChannel(
-  imageName: string
-): string {
+function selectChannel(imageName: string): string {
   // mapの宣言
-  var productmap = new Map();
+  const productmap = new Map()
 
   // 引っ掛けるためのproduct name
-  var products = [
+  const products = [
     'launch',
     'wolf',
     'ocean',
@@ -209,7 +208,7 @@ export async function selectChannel(
     'freee-tax-operation'
   ]
   // image name と対にするchannelID
-  var channelIds = [
+  const channelIds = [
     'C014FCEJ1DL',
     'C01SURYA4A3',
     'C01T6FHVC7P',
@@ -238,26 +237,18 @@ export async function selectChannel(
   ]
 
   // mapへの登録
-  for (var _i = 0; _i < products.length; _i++) {
-    var product = products[_i];
-    var channelid = channelIds[_i];
+  for (let i = 0; i < products.length; i++) {
+    const product = products[i]
+    const channelid = channelIds[i]
     productmap.set(product, channelid)
   }
 
-  // プロダクト名が定義されているか
-  var channel = null
-  for (var key of productmap.keys()) {
-    if imageName.includes(productmap.get(key)) {
-      channel = productmap.get(key)
-      break;
+  // プロダクト名が定義されていたら対応するチャンネルIDを返す
+  for (const key of productmap.keys()) {
+    if (imageName.includes(key)) {
+      return productmap.get(key)
     }
   }
 
-  // 当てはまるものがなかった場合はtrivy_alertに投げる(例外的な奴)
-  if (!channel) {
-    channel = process.env.SLACK_TRIVY_ALERT
-  }
-
-  // channlIDを返す
-  return channel
+  return String(process.env.SLACK_TRIVY_ALERT)
 }
