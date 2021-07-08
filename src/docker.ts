@@ -97,7 +97,15 @@ export default class Docker {
         options
       )
 
-      const vulnerabilities: Vulnerability[] = JSON.parse(trivyScanReport)
+      let trivyJsonScanReport: Vulnerability[]
+      try {
+        trivyJsonScanReport = JSON.parse(trivyScanReport)
+      } catch (e) {
+        core.info(`[Scan Report]: ${trivyScanReport}`)
+        throw new Error('Invalid JSON')
+      }
+
+      const vulnerabilities: Vulnerability[] = trivyJsonScanReport
       if (vulnerabilities.length > 0) {
         notifyVulnerability(imageName, vulnerabilities, trivyScanReport)
       }
