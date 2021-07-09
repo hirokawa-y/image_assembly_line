@@ -180,61 +180,9 @@ function selectChannel(imageName: string): string {
   const productmap = new Map()
 
   // 引っ掛けるためのproduct name
-  const products = [
-    'launch',
-    'wolf',
-    'ocean',
-    'nest-auth',
-    'card',
-    'goat',
-    'mynumber',
-    'benefit',
-    'cfoalpha-app',
-    'ohmu',
-    'jigsaw',
-    'deal-platform',
-    'javelin',
-    'ai-lab',
-    'convoy',
-    'freee-payroll',
-    'freee-pm',
-    'freee-ctax',
-    'freee-accounts',
-    'calc',
-    'freee-rrweb',
-    'ebis',
-    'freee-auth',
-    'freee-app-store',
-    'freee-tax-operation'
-  ]
+  const products = process.env.TRIVY_PRODUCT_NAME_LIST.split(',')
   // image name と対にするchannelID
-  const channelIds = [
-    'C014FCEJ1DL',
-    'C01SURYA4A3',
-    'C01T6FHVC7P',
-    'C01TN7TND4Z',
-    'C01T9LHR7PD',
-    'C01T2R4A3UN',
-    'C01U61WJX9T',
-    'C01T9K6LTU3',
-    'C0217FZ1B1N',
-    'C015Z5YR3FX',
-    'C01TFPTSD7W',
-    'C01T9J5QR6W',
-    'C01TN7G69GR',
-    'C01T2NJRA4W',
-    'C01P89JU0BZ',
-    'C014AUKCZ50',
-    'C014AUKCZ50',
-    'CAX1NQNAK',
-    'CU8BQ3WAK',
-    'C01T9QJT6Q3',
-    'C0240AGKPQE',
-    'C0137P1TJ5A',
-    'CU8BPSFAB',
-    'CDHQA8Z4J',
-    'CA3UUQRHN'
-  ]
+  const channelIds = process.env.TRIVY_SLACK_CHANNEL_ID_LIST.split(',')
 
   // mapへの登録
   for (let i = 0; i < products.length; i++) {
