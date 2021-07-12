@@ -180,9 +180,9 @@ function selectChannel(imageName: string): string {
   const productmap = new Map()
 
   // 引っ掛けるためのproduct name
-  const products = process.env.TRIVY_PRODUCT_NAME_LIST.split(',')
+  const products = String(process.env.TRIVY_PRODUCT_NAME_LIST).split(',')
   // image name と対にするchannelID
-  const channelIds = process.env.TRIVY_SLACK_CHANNEL_ID_LIST.split(',')
+  const channelIds = String(process.env.TRIVY_SLACK_CHANNEL_ID_LIST).split(',')
 
   // mapへの登録
   for (let i = 0; i < products.length; i++) {
