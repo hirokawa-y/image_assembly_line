@@ -91,6 +91,7 @@ export default class Docker {
           severityLevel,
           '--skip-dirs',
           skipDirs,
+          '--ignore-unfixed',
           imageName
         ],
         options
