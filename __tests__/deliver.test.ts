@@ -19,7 +19,7 @@ describe('setDeliver()', () => {
     })
     expect(setOutput).toHaveBeenCalledWith('built_image_name', image.imageName)
     expect(setOutput).toHaveBeenCalledWith('built_image_id', image.imageID)
-    expect(setOutput).toHaveBeenCalledWith('built_image_tags', image.tags)
+    expect(setOutput).toHaveBeenCalledWith('built_image_tag', image.tags[0])
     expect(setOutput).toHaveBeenCalledWith('git_hub_run_id', gitHubRunID)
   })
 })
