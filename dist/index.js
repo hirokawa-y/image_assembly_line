@@ -9185,7 +9185,7 @@ function setDelivery(delivery) {
     return __awaiter(this, void 0, void 0, function* () {
         core.setOutput('built_image_name', delivery.dockerImage.imageName);
         core.setOutput('built_image_id', delivery.dockerImage.imageID);
-        core.setOutput('built_image_tag', delivery.dockerImage.tags[0]);
+        core.setOutput('built_image_tags', delivery.dockerImage.tags.join(','));
         core.setOutput('git_hub_run_id', delivery.gitHubRunID);
     });
 }
